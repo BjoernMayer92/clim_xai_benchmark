@@ -3,6 +3,17 @@ import xarray as xrange
 
 
 def xarray_autocovariance_matrix(data, sample_dimension = "time"):
+    """"
+    Args:
+        data ([type]): [description]
+        sample_dimension (str, optional): [description]. Defaults to "time".
+
+    Raises:
+        ValueError: [description]
+
+    Returns:
+        [type]: [description]
+    """
 
     data_dimensions = list(data.dims)
 
@@ -22,7 +33,17 @@ def xarray_autocovariance_matrix(data, sample_dimension = "time"):
 
 
 def xarray_multivariate_normal_distribution(mean, covariance, n_sample, feature_dim = "location",  sample_dim = "sample"):
+    """
+    Args:
+        mean ([type]): [description]
+        covariance ([type]): [description]
+        n_sample ([type]): [description]
+        feature_dim (str, optional): [description]. Defaults to "location".
+        sample_dim (str, optional): [description]. Defaults to "sample".
 
+    Returns:
+        [type]: [description]
+    """
     data_surrogate = np.random.multivariate_normal(mean, covariance, size = n_sample)
     
     data_surrogate = xr.DataArray(data_surrogate, dims  = [sample_dim, feature_dim], coords = {sample_dim:range(n_sample),
@@ -32,6 +53,17 @@ def xarray_multivariate_normal_distribution(mean, covariance, n_sample, feature_
 
 
 def xarray_multivariate_normal_zeromean(covariance, n_sample, feature_dim = "feature", sample_dim = "sample"):
+    """
+
+    Args:
+        covariance ([type]): [description]
+        n_sample ([type]): [description]
+        feature_dim (str, optional): [description]. Defaults to "feature".
+        sample_dim (str, optional): [description]. Defaults to "sample".
+
+    Returns:
+        [type]: [description]
+    """
     
     n_feature = covariance.sizes[feature_dim]
     mean = np.zeros(n_feature)
@@ -41,3 +73,8 @@ def xarray_multivariate_normal_zeromean(covariance, n_sample, feature_dim = "fea
 
     return data
 
+def xarray_random_normal( coords, loc=0.0, scale=1.0):
+    size = [len(coords[key]) for key in coords]
+    data = np.random.normal(loc = loc, scale= scale, size = size)
+    data = xr.DataArray(data, dims = coords.keys(), coords = coords )
+    return data
