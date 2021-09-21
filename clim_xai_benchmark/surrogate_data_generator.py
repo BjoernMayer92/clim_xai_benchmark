@@ -1,5 +1,5 @@
 import numpy as np
-import xarray as xrange
+import xarray as xr
 
 
 def xarray_autocovariance_matrix(data, sample_dimension = "time"):
