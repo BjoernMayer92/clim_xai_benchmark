@@ -110,7 +110,6 @@ def cal_breaking_points_y(breaking_points, slopes, breaking_dim = "breaking_poin
 
     for sta_index in range(n_breaking_points-1):
         end_index = sta_index+1
-        logging.info(" ".join([str(sta_index),str(end_index)]))
         x_end = breaking_points.sel({breaking_dim:end_index})
         x_sta = breaking_points.sel({breaking_dim:sta_index})
         
@@ -180,14 +179,14 @@ def gen_piecewise_linear_parameters(data, covariance,  n_breaking_points = 1, br
         [xarray DataSet]: Dataset containing breaking points x and y coordinates as well as slopes 
     """
 
-    quantiles = gen_random_quantiles(data = data, n_breaking_points = 0)
+    quantiles = gen_random_quantiles(data = data, n_breaking_points = n_breaking_points-1)
     
     breaking_points_x = cal_breaking_points_from_quantiles(data= data, quantiles = quantiles, feature_dim = feature_dim, sample_dim = sample_dim)
     breaking_points_x_zero = add_zero_breaking_point(breaking_points_x)
     breaking_points_x_zero_sorted = xarray_sort_reindex(data = breaking_points_x_zero, sort_dim = breaking_dim)
 
-    slopes = sdg.xarray_multivariate_normal_zeromean(covariance = covariance, n_sample = n_breaking_points +2, feature_dim= feature_dim, sample_dim = breaking_dim)
-    slopes = slopes.assign_coords({breaking_dim:np.arange(-1,n_breaking_points+1)})
+    slopes = sdg.xarray_multivariate_normal_zeromean(covariance = covariance, n_sample = n_breaking_points +1, feature_dim= feature_dim, sample_dim = breaking_dim)
+    slopes = slopes.assign_coords({breaking_dim:np.arange(-1,n_breaking_points)})
     breaking_points_y =cal_breaking_points_y(breaking_points_x_zero_sorted, slopes)
 
 
@@ -201,7 +200,7 @@ def cal_output_linear_piecewise(data, breaking_points, breaking_dim ="breaking_p
 
     for feature_index in range(n_feature):
         input_data = data.isel(feature=feature_index)
-        x_start = breaking_points.isel(feature=feature_index).y.dropna(dim = breaking_dim)
+        x_start = breaking_points.isel(feature=feature_index).x.dropna(dim = breaking_dim)
         y_start = breaking_points.isel(feature=feature_index).y.dropna(dim = breaking_dim)
         slope =   breaking_points.isel(feature=feature_index).slopes
 
