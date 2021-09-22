@@ -1,5 +1,6 @@
 import numpy as np
 import xarray as xr
+from . import surrogate_data_generator as sdg
 
 def gen_random_quantiles(data, n_breaking_points, feature_dim = "feature", breaking_dim = "breaking_point"):
     """Generates a specified number of random quantile values for a given dataset over a given dimension 
@@ -185,10 +186,35 @@ def gen_piecewise_linear_parameters(data, covariance,  n_breaking_points = 1, br
     breaking_points_x_zero = add_zero_breaking_point(breaking_points_x)
     breaking_points_x_zero_sorted = xarray_sort_reindex(data = breaking_points_x_zero, sort_dim = breaking_dim)
 
-    slopes = xarray_multivariate_normal_zeromean(covariance = covariance, n_sample = n_breaking_points +2, feature_dim= feature_dim, sample_dim = breaking_dim)
+    slopes = sdg.xarray_multivariate_normal_zeromean(covariance = covariance, n_sample = n_breaking_points +2, feature_dim= feature_dim, sample_dim = breaking_dim)
     slopes = slopes.assign_coords({breaking_dim:np.arange(-1,n_breaking_points+1)})
     breaking_points_y =cal_breaking_points_y(breaking_points_x_zero_sorted, slopes)
 
 
-    breaking_points_merged = xr.merge([breaking_points_zero_sorted.rename("x"), breaking_points_y.rename("y"), slopes.rename("slopes")])
+    breaking_points_merged = xr.merge([breaking_points_x_zero_sorted.rename("x"), breaking_points_y.rename("y"), slopes.rename("slopes")])
     return breaking_points_merged
+
+
+def cal_output_linear_piecewise(data, breaking_points, breaking_dim ="breaking_point", sample_dim="sample", feature_dim ="feature"):
+    arr = []
+    n_feature = data.sizes[feature_dim]
+
+    for feature_index in range(n_feature):
+        input_data = data.isel(feature=feature_index)
+        x_start = breaking_points.isel(feature=feature_index).y.dropna(dim = breaking_dim)
+        y_start = breaking_points.isel(feature=feature_index).y.dropna(dim = breaking_dim)
+        slope =   breaking_points.isel(feature=feature_index).slopes
+
+        tmp_data = piecewise_combined(
+        input_data.values,
+        x_start.values,
+        y_start.values,
+        slope.values)
+
+        tmp_data = xr.DataArray(tmp_data, dims=[sample_dim], coords = {sample_dim:input_data.coords[sample_dim]})
+        tmp_data = tmp_data.assign_coords({feature_dim:feature_index})
+        arr.append(tmp_data)
+
+    result = xr.concat(arr, dim = feature_dim)
+    return result
+

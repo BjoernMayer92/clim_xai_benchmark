@@ -3,11 +3,11 @@ import xarray as xr
 
 
 
-def xarray_autocostd_matrix(data, sample_dim="sample"):
-        """"
+def xarray_autocovariance_matrix(data, sample_dim="sample"):
+    """"
     Args:
         data ([type]): [description]
-        sample_dimension (str, optional): [description]. Defaults to "time".
+        sample_dim (str, optional): [description]. Defaults to "time".
 
     Raises:
         ValueError: [description]
@@ -27,19 +27,18 @@ def xarray_autocostd_matrix(data, sample_dim="sample"):
     for data_dimension in data_dimensions:
         rename_dict[data_dimension] = data_dimension+"_1"
 
-    sample_size = data.sizes[sample_dim]costd
+    sample_size = data.sizes[sample_dim]
     data_anom_1 = data-data.mean(dim=sample_dim)
     data_anom_2 = data_anom_1.rename(rename_dict)
     
-    costd = xr.dot(data_anom_1, data_anom_2)/sample_size
+    covariance = xr.dot(data_anom_1, data_anom_2)/sample_size
+    return covariance
 
-    return costd
-
-def xarray_multivariate_normal_distribution(mean, costd, n_sample, feature_dim = "location",  sample_dim = "sample"):
+def xarray_multivariate_normal_distribution(mean, covariance, n_sample, feature_dim = "location",  sample_dim = "sample"):
     """
     Args:
         mean ([type]): [description]
-        costd ([type]): [description]
+        covariance ([type]): [description]
         n_sample ([type]): [description]
         feature_dim (str, optional): [description]. Defaults to "location".
         sample_dim (str, optional): [description]. Defaults to "sample".
@@ -47,7 +46,7 @@ def xarray_multivariate_normal_distribution(mean, costd, n_sample, feature_dim =
     Returns:
         [type]: [description]
     """
-    data_surrogate = np.random.multivariate_normal(mean, costd, size = n_sample)
+    data_surrogate = np.random.multivariate_normal(mean, covariance, size = n_sample)
     
     data_surrogate = xr.DataArray(data_surrogate, dims  = [sample_dim, feature_dim], coords = {sample_dim:range(n_sample),
     feature_dim: mean.coords[feature_dim]})
@@ -55,11 +54,11 @@ def xarray_multivariate_normal_distribution(mean, costd, n_sample, feature_dim =
     return data_surrogate
 
 
-def xarray_multivariate_normal_zeromean(costd, n_sample, feature_dim = "feature", sample_dim = "sample"):
+def xarray_multivariate_normal_zeromean(covariance, n_sample, feature_dim = "feature", sample_dim = "sample"):
     """
 
     Args:
-        costd ([type]): [description]
+        covariance ([type]): [description]
         n_sample ([type]): [description]
         feature_dim (str, optional): [description]. Defaults to "feature".
         sample_dim (str, optional): [description]. Defaults to "sample".
@@ -68,11 +67,11 @@ def xarray_multivariate_normal_zeromean(costd, n_sample, feature_dim = "feature"
         [type]: [description]
     """
     
-    n_feature = costd.sizes[feature_dim]
+    n_feature = covariance.sizes[feature_dim]
     mean = np.zeros(n_feature)
-    mean = xr.DataArray(mean, dims = [feature_dim], coords = {feature_dim: costd.coords[feature_dim]})
+    mean = xr.DataArray(mean, dims = [feature_dim], coords = {feature_dim: covariance.coords[feature_dim]})
 
-    data = xarray_multivariate_normal_distribution(mean, costd, n_sample, feature_dim = feature_dim,  sample_dim = sample_dim)
+    data = xarray_multivariate_normal_distribution(mean, covariance, n_sample, feature_dim = feature_dim,  sample_dim = sample_dim)
 
     return data
 
