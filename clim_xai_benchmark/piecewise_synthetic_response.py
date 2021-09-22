@@ -215,6 +215,8 @@ def cal_output_linear_piecewise(data, breaking_points, breaking_dim ="breaking_p
         tmp_data = tmp_data.assign_coords({feature_dim:feature_index})
         arr.append(tmp_data)
 
+
     result = xr.concat(arr, dim = feature_dim)
+    result = result.assign_coords({feature_dim:data.coords[feature_dim]})
     return result
 
