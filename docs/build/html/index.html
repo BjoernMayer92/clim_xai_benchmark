@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Welcome to clim_xai_benchmark’s documentation! &#8212; clim_xai_benchmark 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-clim_xai_benchmark.piecewise_synthetic_response">
+<span id="welcome-to-clim-xai-benchmark-s-documentation"></span><h1>Welcome to clim_xai_benchmark’s documentation!<a class="headerlink" href="#module-clim_xai_benchmark.piecewise_synthetic_response" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="clim_xai_benchmark.piecewise_synthetic_response.add_zero_breaking_point">
+<span class="sig-prename descclassname"><span class="pre">clim_xai_benchmark.piecewise_synthetic_response.</span></span><span class="sig-name descname"><span class="pre">add_zero_breaking_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">breaking_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'feature'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breaking_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'breaking_point'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clim_xai_benchmark.piecewise_synthetic_response.add_zero_breaking_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a set of breaking points this function adds an additional zero as a breaking point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>breaking_points</strong> (<em>xarray DataArray</em>) – </p></li>
+<li><p><strong>feature_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the feature dimension. Defaults to “feature”.</p></li>
+<li><p><strong>breaking_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the breaking point dimension. Defaults to “breaking_point”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>breaking points with an additional zero added</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[xarray DataArray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="clim_xai_benchmark.piecewise_synthetic_response.cal_breaking_points_from_quantiles">
+<span class="sig-prename descclassname"><span class="pre">clim_xai_benchmark.piecewise_synthetic_response.</span></span><span class="sig-name descname"><span class="pre">cal_breaking_points_from_quantiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'feature'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sample'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breaking_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'breaking_point'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clim_xai_benchmark.piecewise_synthetic_response.cal_breaking_points_from_quantiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the breaking points of a data array over a given sample dimension given quantile array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>xarray DataArray</em>) – Data over which quantiles are evaluated</p></li>
+<li><p><strong>quantiles</strong> (<em>xarray DataArray</em>) – Dataarray of the quantiles</p></li>
+<li><p><strong>feature_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the feature dimension. Defaults to “feature”.</p></li>
+<li><p><strong>sample_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the sample dimension. Defaults to “sample”.</p></li>
+<li><p><strong>breaking_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the breaking dimension. Defaults to “breaking_point”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataArray without the sample dimension but instead a breaking_point dimension</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[xarray DataArray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="clim_xai_benchmark.piecewise_synthetic_response.cal_breaking_points_y">
+<span class="sig-prename descclassname"><span class="pre">clim_xai_benchmark.piecewise_synthetic_response.</span></span><span class="sig-name descname"><span class="pre">cal_breaking_points_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">breaking_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slopes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breaking_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'breaking_point'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clim_xai_benchmark.piecewise_synthetic_response.cal_breaking_points_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a number of breaking points and slopes this function calculates the corresponding y values of a piecewise linear function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>breaking_points</strong> (<em>xarray DataArray</em>) – Array containing the breaking points</p></li>
+<li><p><strong>slopes</strong> (<em>xarray DataArray</em>) – Array containing the slopes</p></li>
+<li><p><strong>breaking_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of breaking_point dimension. Defaults to “breaking_point”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>y value for braking_points</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[xarray Dataarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="clim_xai_benchmark.piecewise_synthetic_response.gen_piecewise_linear_parameters">
+<span class="sig-prename descclassname"><span class="pre">clim_xai_benchmark.piecewise_synthetic_response.</span></span><span class="sig-name descname"><span class="pre">gen_piecewise_linear_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_breaking_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breaking_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'breaking_point'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'feature'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sample'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clim_xai_benchmark.piecewise_synthetic_response.gen_piecewise_linear_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates breaking points and slopes for a given dataarray and covariance matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>xarray DataArray</em>) – Data for which piecewise parameters are generated</p></li>
+<li><p><strong>covariance</strong> (<em>xarray DataArray</em>) – Covariance matrix for the data</p></li>
+<li><p><strong>n_breaking_points</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of breaking points in the output. One breaking point is always zero. Defaults to 1.</p></li>
+<li><p><strong>breaking_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the dimension for the breaking points. Defaults to “breaking_point”.</p></li>
+<li><p><strong>feature_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the feature dimension. Defaults to “feature”.</p></li>
+<li><p><strong>sample_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the sample dimension. Defaults to “sample”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataset containing breaking points x and y coordinates as well as slopes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[xarray DataSet]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="clim_xai_benchmark.piecewise_synthetic_response.gen_random_quantiles">
+<span class="sig-prename descclassname"><span class="pre">clim_xai_benchmark.piecewise_synthetic_response.</span></span><span class="sig-name descname"><span class="pre">gen_random_quantiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_breaking_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'feature'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breaking_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'breaking_point'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clim_xai_benchmark.piecewise_synthetic_response.gen_random_quantiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a specified number of random quantile values for a given dataset over a given dimension</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>xarray Dataarray</em>) – Data over which quantiles will be evaluated</p></li>
+<li><p><strong>n_breaking_points</strong> (<em>int</em>) – Number of breaking points</p></li>
+<li><p><strong>feature_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Dimension of dataarray that corresponds to features. Defaults to “feature”.</p></li>
+<li><p><strong>breaking_dim</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the corresponding quantile dimension. Defaults to “breaking_point”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>quantiles</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[xarray Dataarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="clim_xai_benchmark.piecewise_synthetic_response.piecewise_combined">
+<span class="sig-prename descclassname"><span class="pre">clim_xai_benchmark.piecewise_synthetic_response.</span></span><span class="sig-name descname"><span class="pre">piecewise_combined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breaking_point_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breaking_point_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clim_xai_benchmark.piecewise_synthetic_response.piecewise_combined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the output over x of a piecewise linear function with given x and y breaking points as well as slopes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list of float</em>) – input values for function</p></li>
+<li><p><strong>breaking_point_x</strong> (<em>list of float</em>) – values of breaking points in x</p></li>
+<li><p><strong>breaking_point_y</strong> (<em>list of float</em>) – values of breaking points in y</p></li>
+<li><p><strong>slope</strong> (<em>list of float</em>) – values of slopes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output for piecewise linear function</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[list of float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="clim_xai_benchmark.piecewise_synthetic_response.xarray_sort_reindex">
+<span class="sig-prename descclassname"><span class="pre">clim_xai_benchmark.piecewise_synthetic_response.</span></span><span class="sig-name descname"><span class="pre">xarray_sort_reindex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_dim</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clim_xai_benchmark.piecewise_synthetic_response.xarray_sort_reindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sorts an Dataarray over a given dimension and reindexes this dimension with a standard range
+:param data: Data to be sorted and reindexed
+:type data: xarray DataArray
+:param sort_dim: Name of the dimension over which to sort and reindex
+:type sort_dim: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Sorted and reindexed Data</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>[xarray DataArray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">clim_xai_benchmark</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Bjoern Mayer.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
