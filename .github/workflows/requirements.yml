@@ -2,9 +2,7 @@ name: requirements
 on: [push]
 jobs:
   build:
-    
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@master
       - name: Set up Python 3.6.12
